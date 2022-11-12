@@ -1,0 +1,33 @@
+.magnifier-container {
+    position: relative;
+}
+.magnifier-small-wrapper {
+    position: relative;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .magnifier-over-square {
+        z-index: 3;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #aaa;
+        background: 50% top no-repeat #fede4f;
+        opacity: .5;
+        -moz-opacity: .5;
+        -khtml-opacity: .5;
+        filter: alpha(Opacity=50);
+        cursor: move;
+    }
+}
+.magnifier-big-wrapper {
+    position: absolute;
+    top : 0;
+    visibility: hidden;
+    overflow: hidden;
+}
