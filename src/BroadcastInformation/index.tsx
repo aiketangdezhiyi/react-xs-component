@@ -5,6 +5,7 @@ import { ICompProps } from '../type';
 import { cloneReactElementArray } from '../utils/reactUtils';
 import './index.less';
 import { getConcatArray } from '../utils/Array';
+import { eventBus, onDocumentVisible } from '../utils/Event';
 
 interface IProps extends ICompProps {
   /** 播放信息列表 */
@@ -21,8 +22,6 @@ interface IProps extends ICompProps {
   width: number;
   /** 每次展示的条数 默认为1 */
   number?: number;
-  /** hover 暂停 默认true */
-  suspend?: boolean;
   /** 点击的回调  showItems当前展示元素 */
   onClick?: (showItems: any[]) => void;
 }
@@ -46,7 +45,6 @@ const BroadcastInformation = (props: IProps) => {
     itemHeight = 20,
     number = 1,
     width,
-    suspend = true,
     onClick,
     style,
     className,
@@ -120,21 +118,28 @@ const BroadcastInformation = (props: IProps) => {
     startBroadcastAnimation();
   };
 
-  let onMouseEnter;
-  let onMouseLeave;
-  if (suspend) {
-    onMouseEnter = () => {
-      if (!suspend) {
-        return;
+  let onMouseEnter: () => void = () => {
+    clearTimeout(timerRef.current);
+    setIsEnter(true);
+  };
+  let onMouseLeave: () => void = () => {
+    setIsEnter(false);
+    startBroadcastAnimation();
+  };
+
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === 'visible') {
+        typeof onMouseLeave === 'function' && onMouseLeave();
+      } else {
+        typeof onMouseEnter === 'function' && onMouseEnter();
       }
-      clearTimeout(timerRef.current);
-      setIsEnter(true);
     };
-    onMouseLeave = () => {
-      setIsEnter(false);
-      startBroadcastAnimation();
+    eventBus.addEvent(onDocumentVisible, handler);
+    return () => {
+      eventBus.removeEvent(onDocumentVisible, handler);
     };
-  }
+  }, [onMouseLeave, onMouseEnter]);
 
   return (
     <div
@@ -164,8 +169,8 @@ const BroadcastInformation = (props: IProps) => {
           transition: startAnimation ? `transform ${animationTime}ms` : 'none',
           transform: `translateY(-${showIdx * moveHeight}px)`,
         }}
+        onTransitionEndCapture={onTransitionEnd}
         className={getCls('ul')}
-        onTransitionEnd={onTransitionEnd}
       >
         {informationListJSX}
       </ul>

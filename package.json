@@ -1,7 +1,20 @@
 {
-  "private": true,
+  "private": false,
   "name": "react-xs-component",
+  "description": "react 组件",
   "version": "1.0.0",
+  "author":"xs",
+  "license": "MIT",
+  "keywords": ["react","xs","component"],
+  "homepage": "https://aiketangdezhiyi.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aiketangdezhiyi/react-xs-component"
+  },
+  "files":["dist"],
+  "main":"dist/index.d.ts",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",

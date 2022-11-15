@@ -122,9 +122,4 @@ export default () => {
 | itemHeight | 每一项默认的高度与行高 默认 20 默认与容器高度保持一致 | number | false | 20 |  |
 | width | 宽度 | number | true |  |  |
 | number | 每次展示的条数 默认为 1 | number | false | 1 |  |
-| suspend | hover 暂停 默认 true | boolean | false | true |  |
 | onClick | 点击的回调 showItems 当前展示元素 | (showItems: any[]) => void | false |  |  |
-
-### 待优化
-
-- 切换时轮播暂停
