@@ -1,29 +1,20 @@
-# 介绍
+## 介绍
 
-```bash
-$ npm i
-```
+xs 开发的 react 组件库，基于 ant design。
 
-Start the dev server,
+## 安装
 
-```bash
-$ npm start
-```
+> `npm install react-xs-component` 或 `yarn add react-xs-component`
 
-Build documentation,
+## 文档
 
-```bash
-$ npm run docs:build
-```
+[doc](https://aiketangdezhiyi.github.io/react-xs-component/)
 
-Run test,
+## github
 
-```bash
-$ npm test
-```
+[github](https://github.com/aiketangdezhiyi/react-xs-component)
 
-Build library via `father`,
+## 感谢
 
-```bash
-$ npm run build
-```
+- 感谢 Ant Design 组件库
+- 感谢 dumi 组件开发而生的文档工具
