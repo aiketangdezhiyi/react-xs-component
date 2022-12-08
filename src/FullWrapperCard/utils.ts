@@ -1,5 +1,5 @@
-import { boundary, boundaryMax, boundaryMin } from "@/utils/math";
-import { ERotateAngle, virtualListType } from "./type";
+import { boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
+import { ERotateAngle, virtualListType } from './type';
 
 export type computedInfoType = {
   originWidth: number;
@@ -14,17 +14,11 @@ export type computedInfoType = {
  * @param rotateInfo
  */
 export const computedImageSize = (rotateInfo: computedInfoType) => {
-  let {
-    originHeight,
-    originWidth,
-    containerHeight,
-    containerWidth,
-    rotateAngle,
-  } = rotateInfo;
+  let { originHeight, originWidth, containerHeight, containerWidth, rotateAngle } = rotateInfo;
   // 有个非常巧妙的处理过程 图片不看内容的话 是不是旋转一下就是图片的宽高改变了
   if (
     rotateAngle === ERotateAngle.ninety ||
-    rotateAngle === ERotateAngle["two hundred and seventy"]
+    rotateAngle === ERotateAngle['two hundred and seventy']
   ) {
     [containerWidth, containerHeight] = [containerHeight, containerWidth];
   }
@@ -64,13 +58,10 @@ export const getTransverseVirtualListInfo = (
   width: number,
   left: number,
   offsetWith: number,
-  reality: number
+  reality: number,
 ): virtualListType => {
   const startIdx = boundaryMin(Math.floor(left / width) - 10, 0);
-  const endIdx = boundaryMax(
-    Math.ceil((left + offsetWith) / width) + 10,
-    reality - 1
-  );
+  const endIdx = boundaryMax(Math.ceil((left + offsetWith) / width) + 10, reality - 1);
 
   const startDomLeft = startIdx * width;
 

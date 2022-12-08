@@ -1,135 +1,131 @@
 .comp-preset-input {
-    &-container {
-        display : -webkit-box;
-        display : -webkit-flex;
-        display : -ms-flexbox;
-        display : flex;
-        height  : 32px;
-        position: relative;
+  &-container {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 32px;
+  }
+
+  &-search {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    line-height: 30px;
+    text-indent: 12px;
+    background: #f5f6f7;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 16px 0 0 16px;
+    -webkit-transition: border-color 0.3s;
+    transition: border-color 0.3s;
+    -webkit-box-flex: 1;
+
+    &:focus {
+      border-color: #f77234;
+    }
+  }
+
+  &-icon {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: #f5f6f7;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+  }
+
+  &-gradient {
+    position: absolute;
+    right: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 40px;
+    height: 80%;
+    background: -webkit-linear-gradient(right, #f5f6f7 5px, rgba(245, 246, 247, 0) 30px);
+    background: linear-gradient(to left, #f5f6f7 5px, rgba(245, 246, 247, 0) 30px);
+    -webkit-transform: translate(-80px, 5px);
+    transform: translate(-80px, 5px);
+  }
+
+  &-btn {
+    position: relative;
+    z-index: 10;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 88px;
+    color: #fff;
+    background-color: #f77234;
+    border: 1px solid #f77234;
+    border-radius: 0 16px 16px 0;
+    cursor: pointer;
+    -webkit-transition: background-color 0.3s, border-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s;
+
+    &:hover {
+      background-color: #fc1944;
+      border-color: #fc1944;
     }
 
-    &-search {
-        -webkit-box-flex  : 1;
-        -webkit-flex      : 1;
-        -ms-flex          : 1;
-        flex              : 1;
-        border-radius     : 16px 0 0 16px;
-        border            : 1px solid #ccc;
-        border-right      : none;
-        text-indent       : 12px;
-        height            : 100%;
-        line-height       : 30px;
-        -webkit-box-sizing: border-box;
-        box-sizing        : border-box;
-        background        : #f5f6f7;
-        -webkit-transition: border-color .3s;
-        transition        : border-color .3s;
-
-        &:focus {
-            border-color: #F77234;
-        }
-
+    & > svg {
+      margin-right: 8px;
     }
 
-    &-icon {
-        position               : absolute;
-        left                   : 16px;
-        width                  : 16px;
-        height                 : 16px;
-        top                    : 8px;
-        display                : -webkit-box;
-        display                : -webkit-flex;
-        display                : -ms-flexbox;
-        display                : flex;
-        -webkit-box-pack       : center;
-        -webkit-justify-content: center;
-        -ms-flex-pack          : center;
-        justify-content        : center;
-        background             : #f5f6f7;
-        -webkit-box-align      : center;
-        -webkit-align-items    : center;
-        -ms-flex-align         : center;
-        align-items            : center;
+    .anticon-search {
+      & > svg {
+        margin-right: 2px;
+      }
     }
+  }
 
-    &-gradient {
-        width             : 40px;
-        height            : 80%;
-        background        : -webkit-linear-gradient(right, #f5f6f7 5px, rgba(245, 246, 247, 0) 30px);
-        background        : linear-gradient(to left, #f5f6f7 5px, rgba(245, 246, 247, 0) 30px);
-        -webkit-transform : translate(-80px, 5px);
-        transform         : translate(-80px, 5px);
-        position          : absolute;
-        right             : 0;
-        -webkit-box-sizing: border-box;
-        box-sizing        : border-box;
+  &-clear {
+    position: absolute;
+    right: 95px;
+    z-index: 10;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    height: 100%;
+    color: #aaa;
+    font-size: 14px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+
+    & > svg {
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+      cursor: pointer;
+      -webkit-transition: color 0.3s;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #333;
+      }
     }
-
-    &-btn {
-        width             : 88px;
-        -webkit-box-sizing: border-box;
-        box-sizing        : border-box;
-        border-radius     : 0 16px 16px 0;
-        background-color  : #F77234;
-        color             : #fff;
-        border            : 1px solid #F77234;
-        cursor            : pointer;
-        position          : relative;
-        z-index           : 10;
-        -webkit-transition: background-color .3s,
-            border-color .3s;
-        transition: background-color .3s,
-            border-color .3s;
-
-        &:hover {
-            background-color: #fc1944;
-            border-color    : #fc1944;
-        }
-
-        &>svg {
-            margin-right: 8px;
-        }
-
-        .anticon-search {
-            &>svg {
-                margin-right: 2px;
-            }
-        }
-    }
-
-    &-clear {
-        position               : absolute;
-        right                  : 95px;
-        width                  : 16px;
-        height                 : 16px;
-        display                : -webkit-box;
-        display                : -webkit-flex;
-        display                : -ms-flexbox;
-        display                : flex;
-        -webkit-box-pack       : center;
-        -webkit-justify-content: center;
-        -ms-flex-pack          : center;
-        justify-content        : center;
-        -webkit-box-align      : center;
-        -webkit-align-items    : center;
-        -ms-flex-align         : center;
-        align-items            : center;
-        color                  : #aaa;
-        z-index                : 10;
-        height                 : 100%;
-        font-size              : 14px;
-
-        &>svg {
-            cursor            : pointer;
-            -webkit-transition: color .3s;
-            transition        : color .3s;
-            -webkit-transform : scale(1.2);
-            transform         : scale(1.2);
-
-            &:hover {
-                color: #333;
-            }
-        }
-    }
-
+  }
 }

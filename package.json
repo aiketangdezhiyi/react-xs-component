@@ -50,7 +50,7 @@
     "classnames": "^2.3.2",
     "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "yuxuannnn_utils": "^1.0.3"
+    "yuxuannnn_utils": "^1.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

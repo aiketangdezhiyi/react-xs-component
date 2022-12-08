@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { ICompProps } from '../type';
-import { lazyImageControl } from './util';
+import { lazyImageControl } from 'yuxuannnn_utils';
 import { Skeleton } from 'antd';
 
 import './index.less';
@@ -55,4 +55,4 @@ const LazyImage = (props: IProps & React.ImgHTMLAttributes<HTMLImageElement>) =>
 
 export default React.memo(LazyImage);
 
-export { lazyImageControl } from './util';
+export { lazyImageControl } from 'yuxuannnn_utils';

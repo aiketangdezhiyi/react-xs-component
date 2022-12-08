@@ -1,7 +1,6 @@
-import { getImageSize } from '../../utils/myUtils';
+import { getImageSize, ImageSize } from 'yuxuannnn_utils';
 import { useSetState } from 'ahooks';
 import { useEffect, useRef } from 'react';
-import { ImageSize } from '../../type';
 import { showImageInitState } from '../state';
 import { showImageInfoType } from '../type';
 import { computedImageSize, computedInfoType } from '../utils';
@@ -21,7 +20,7 @@ export const useAdaptivePicture = (images: string[], showImageIdx: number, show:
   const { width, height, rotateAngle, magnification } = showImageInfo;
   useEffect(() => {
     // 保证图片变化时，图片比例始终与容器保持最优
-    getImageSize(images[showImageIdx], (imageSize: ImageSize) => {
+    getImageSize(images[showImageIdx]).then((imageSize: ImageSize) => {
       if (!showContainerRef.current) {
         return;
       }

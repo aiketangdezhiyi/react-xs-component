@@ -9,8 +9,8 @@ import { Timeout } from 'ahooks/lib/useRequest/src/types';
  * @returns
  */
 export const debounce = (func: Function, delay: number = 3000) => {
-  let timer: Timeout | undefined = void 0;
-  return function (...args: any[]) {
+  let timer: any = void 0;
+  return function (this: unknown, ...args: any[]) {
     clearTimeout(timer);
     timer = setTimeout(() => {
       func.apply(this, args);
@@ -25,7 +25,7 @@ export const debounce = (func: Function, delay: number = 3000) => {
  */
 export const throttle = (func: Function, duration: number) => {
   let lastTime = 0;
-  return (...args: any[]) => {
+  return function (this: unknown, ...args: any[]) {
     const nowTime = Date.now();
     if (nowTime - lastTime >= duration) {
       func.apply(this, args);

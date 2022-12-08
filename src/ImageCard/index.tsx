@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './index.less';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { loadImage, setCompCommonCls } from '../utils/myUtils';
+import { setCompCommonCls } from '../utils/myUtils';
 import Loading from '../Loading';
 import classNames from 'classnames';
-
+import { loadImage } from 'yuxuannnn_utils';
 interface IProps {
   /** 图片数组 */
   images: string[];
@@ -22,7 +22,7 @@ const ImageCard = (props: IProps) => {
 
   useEffect(() => {
     const src = images[0] ? images[0] : '';
-    loadImage(src, () => {
+    loadImage(src).then(() => {
       setShowImage(src);
     });
   }, [images]);

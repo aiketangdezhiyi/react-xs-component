@@ -1,7 +1,5 @@
-import { throttle } from '../utils/webPerformance';
+import { throttle } from 'yuxuannnn_utils';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useForce } from './useForce';
-
 /**
  *
  * @param max
@@ -13,23 +11,21 @@ export const useCounterControl = (max: number, initCounter?: number, duration?: 
   const [count, setCount] = useState(initCounter === undefined ? 0 : initCounter);
   const counterRef = useRef<number>(initCounter === undefined ? 0 : initCounter);
 
-  const { refresh } = useForce();
-
   duration = duration !== undefined ? duration : 1000;
 
   useEffect(() => {
-    setCount(counterRef.current);
-  }, [counterRef.current]);
+    counterRef.current = count; // 双向绑定 保证更新不出错
+  }, [count]);
 
   const handleDecrease = useCallback(() => {
     counterRef.current = (counterRef.current - 1 + max) % max;
-    refresh();
-  }, [counterRef, max]);
+    setCount(counterRef.current);
+  }, [max]);
 
   const handleIncrease = useCallback(() => {
     counterRef.current = (counterRef.current + 1) % max;
-    refresh();
-  }, [counterRef, max]);
+    setCount(counterRef.current);
+  }, [max]);
 
   const handleIncreaseWithDebounce = useCallback(throttle(handleIncrease, duration), [
     handleIncrease,
