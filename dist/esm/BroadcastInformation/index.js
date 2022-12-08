@@ -112,6 +112,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { cloneReactElementArray } from '../utils/reactUtils';
 import './index.less';
 import { getConcatArray } from '../utils/Array';
+import { eventBus, onDocumentVisible } from '../utils/Event';
 import { jsx as _jsx } from 'react/jsx-runtime';
 
 /**
@@ -137,8 +138,6 @@ var BroadcastInformation = function BroadcastInformation(props) {
     _props$number = props.number,
     number = _props$number === void 0 ? 1 : _props$number,
     width = props.width,
-    _props$suspend = props.suspend,
-    suspend = _props$suspend === void 0 ? true : _props$suspend,
     _onClick = props.onClick,
     style = props.style,
     className = props.className;
@@ -236,25 +235,33 @@ var BroadcastInformation = function BroadcastInformation(props) {
     startBroadcastAnimation();
   };
 
-  var onMouseEnter;
-  var onMouseLeave;
+  var onMouseEnter = function onMouseEnter() {
+    clearTimeout(timerRef.current);
+    setIsEnter(true);
+  };
 
-  if (suspend) {
-    onMouseEnter = function onMouseEnter() {
-      if (!suspend) {
-        return;
-      }
+  var onMouseLeave = function onMouseLeave() {
+    setIsEnter(false);
+    startBroadcastAnimation();
+  };
 
-      clearTimeout(timerRef.current);
-      setIsEnter(true);
-    };
+  useEffect(
+    function () {
+      var handler = function handler() {
+        if (document.visibilityState === 'visible') {
+          typeof onMouseLeave === 'function' && onMouseLeave();
+        } else {
+          typeof onMouseEnter === 'function' && onMouseEnter();
+        }
+      };
 
-    onMouseLeave = function onMouseLeave() {
-      setIsEnter(false);
-      startBroadcastAnimation();
-    };
-  }
-
+      eventBus.addEvent(onDocumentVisible, handler);
+      return function () {
+        eventBus.removeEvent(onDocumentVisible, handler);
+      };
+    },
+    [onMouseLeave, onMouseEnter],
+  );
   return /*#__PURE__*/ _jsx('div', {
     className: classNames(getCls('container'), className),
     style: _objectSpread(
@@ -285,8 +292,8 @@ var BroadcastInformation = function BroadcastInformation(props) {
         transition: startAnimation ? 'transform '.concat(animationTime, 'ms') : 'none',
         transform: 'translateY(-'.concat(showIdx * moveHeight, 'px)'),
       },
+      onTransitionEndCapture: onTransitionEnd,
       className: getCls('ul'),
-      onTransitionEnd: onTransitionEnd,
       children: informationListJSX,
     }),
   });

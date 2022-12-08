@@ -1,3 +1,5 @@
+import { ImageSize } from '../type';
+
 /**
  * 加载图片，加载完成后调用回调
  * @param src 需要加载的图片

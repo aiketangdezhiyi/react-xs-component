@@ -2,19 +2,25 @@
   "private": false,
   "name": "react-xs-component",
   "description": "react 组件",
-  "version": "1.0.0",
-  "author":"xs",
+  "version": "1.0.1",
+  "author": "xs",
   "license": "MIT",
-  "keywords": ["react","xs","component"],
-  "homepage": "https://aiketangdezhiyi.github.io/",
+  "keywords": [
+    "react",
+    "xs",
+    "component"
+  ],
+  "homepage": "https://aiketangdezhiyi.github.io/react-xs-component/",
   "repository": {
     "type": "git",
     "url": "https://github.com/aiketangdezhiyi/react-xs-component"
   },
-  "files":["dist"],
-  "main":"dist/index.d.ts",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -26,11 +32,6 @@
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build"
   },
-  "files": [
-    "dist"
-  ],
-  "module": "dist/esm/index.js",
-  "typings": "dist/esm/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -45,10 +46,11 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "ahooks": "^3.7.2",
-    "antd": "^4.15.2",
+    "antd": "^4.24.5",
     "classnames": "^2.3.2",
     "react": "^18.0.0",
-    "react-copy-to-clipboard": "^5.1.0"
+    "react-copy-to-clipboard": "^5.1.0",
+    "yuxuannnn_utils": "^1.0.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

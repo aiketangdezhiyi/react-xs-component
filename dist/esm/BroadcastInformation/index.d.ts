@@ -16,8 +16,6 @@ interface IProps extends ICompProps {
   width: number;
   /** 每次展示的条数 默认为1 */
   number?: number;
-  /** hover 暂停 默认true */
-  suspend?: boolean;
   /** 点击的回调  showItems当前展示元素 */
   onClick?: (showItems: any[]) => void;
 }
