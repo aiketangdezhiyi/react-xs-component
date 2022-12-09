@@ -106,7 +106,7 @@ function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
 
-import { getImageSize } from '../../utils/myUtils';
+import { getImageSize } from 'yuxuannnn_utils';
 import { useSetState } from 'ahooks';
 import { useEffect, useRef } from 'react';
 import { showImageInitState } from '../state';
@@ -136,7 +136,7 @@ export var useAdaptivePicture = function useAdaptivePicture(images, showImageIdx
   useEffect(
     function () {
       // 保证图片变化时，图片比例始终与容器保持最优
-      getImageSize(images[showImageIdx], function (imageSize) {
+      getImageSize(images[showImageIdx]).then(function (imageSize) {
         if (!showContainerRef.current) {
           return;
         }

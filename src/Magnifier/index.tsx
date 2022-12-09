@@ -1,4 +1,4 @@
-import { loadImage } from '../utils/myUtils';
+import { loadImage } from 'yuxuannnn_utils';
 import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 import './index.less';
@@ -75,7 +75,7 @@ const Magnifier = (props: IProps) => {
     top: 0,
   }); // 放大镜的位置
 
-  loadImage(Image, () => {
+  loadImage(Image).then(() => {
     setSmallImage(Image);
   });
 

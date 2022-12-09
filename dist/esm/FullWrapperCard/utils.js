@@ -1,4 +1,4 @@
-import { boundary, boundaryMax, boundaryMin } from '@/utils/math';
+import { boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
 import { ERotateAngle } from './type';
 
 /**

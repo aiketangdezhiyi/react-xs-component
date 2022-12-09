@@ -4,10 +4,10 @@
  * @param delay 延迟时间
  * @returns
  */
-export declare const debounce: (func: Function, delay?: number) => (...args: any[]) => void;
+export declare const debounce: (func: Function, delay?: number) => (this: unknown, ...args: any[]) => void;
 /**
  *
  * @param func
  * @param duration 两次函数执行的时间间隔
  */
-export declare const throttle: (func: Function, duration: number) => (...args: any[]) => void;
+export declare const throttle: (func: Function, duration: number) => (this: unknown, ...args: any[]) => void;

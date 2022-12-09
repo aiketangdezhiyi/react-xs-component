@@ -10,9 +10,8 @@ import { initBottomState } from './state';
 import FunctionButtonGroup from './components/FunctionButtonGroup';
 import { computedImageSize, getMagnification, getTransverseVirtualListInfo } from './utils';
 import CYQMessage from '../CYQMessage';
-import { useResize } from '../myhooks/useRezie';
+import { useWindowResize, useCounterControl } from 'xshooks';
 import { useAdaptivePicture } from './hooks/useAdaptivePicture';
-import { useCounterControl } from '../myhooks/useCounterControl';
 import { loadImage, boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
 
 const FullWrapperCard = (props: IProps) => {
@@ -87,7 +86,7 @@ const FullWrapperCard = (props: IProps) => {
     setShowImageInfo(computedImageSize(showImageInfo));
   }, [rotateAngle]);
 
-  useResize(() => {
+  useWindowResize(() => {
     // 处理当屏幕大小改变之后的一些问题
     setBottomStatus(initBottomState);
   }, 100);

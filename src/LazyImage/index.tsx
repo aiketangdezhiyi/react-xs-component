@@ -6,7 +6,7 @@ import { Skeleton } from 'antd';
 import './index.less';
 import { setCompCommonCls } from '../utils/myUtils';
 import classNames from 'classnames';
-import { useUnmount } from '../myhooks/useUnmount';
+import { useUnmount } from 'xshooks';
 
 interface IProps extends ICompProps {
   imgStyle?: React.CSSProperties;

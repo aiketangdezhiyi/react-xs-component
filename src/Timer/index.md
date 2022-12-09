@@ -5,7 +5,7 @@
 ### 基本使用
 
 ```tsx
-import { useForce } from '../myhooks/useForce';
+import { useForce } from 'xshooks';
 import { message } from 'antd';
 import React from 'react';
 import { Timer } from 'react-xs-component';

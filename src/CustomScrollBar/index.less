@@ -4,7 +4,8 @@
         display : inline-block;
         position: relative;
 
-        &:hover {
+        &:hover,
+        &.active {
             .comp-custom-scroll-bar-wrapper {
                 width           : 10px;
                 opacity         : 1;
@@ -12,41 +13,34 @@
             }
         }
 
-        &.active {
-            .comp-custom-scroll-bar-wrapper {
-                width           : 10px;
-                opacity         : 1;
-                background-color: #eee;
-            }
-        }
     }
 
     &-wrapper {
-        width           : 0px;
-        height          : 100%;
-        position        : absolute;
-        right           : 0;
-        top             : 0;
-        background-color: #eee;
-        opacity         : 0.9;
-        transition      : width 1s, opacity 1s, background-color .5s;
-        opacity         : 0;
+        width   : 0px;
+        height  : 100%;
+        position: absolute;
+        right   : 0;
+        top     : 0;
+
+        -webkit-transition: width .5s, opacity .5s;
+        transition        : width .5s, opacity .5s;
+        opacity           : 0;
 
         &:hover {
-            width           : 10px;
-            opacity         : 1;
-            background-color: #eee !important;
+            width  : 10px;
+            opacity: 1;
         }
     }
 
     &-yq {
-        width           : 100%;
-        right           : 0;
-        top             : 0;
-        background-color: #ccc;
-        border-radius   : 100px;
-        transition      : width .5s, background-color .5s;
-        position        : absolute;
+        width             : 100%;
+        right             : 0;
+        top               : 0;
+        background-color  : #ccc;
+        border-radius     : 100px;
+        -webkit-transition: width .5s, background-color .5s;
+        transition        : width .5s, background-color .5s;
+        position          : absolute;
 
 
         &:hover {

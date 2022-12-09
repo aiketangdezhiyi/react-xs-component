@@ -19,3 +19,4 @@ export { default as SwiperInput } from './SwiperInput';
 export { type presetType } from './SwiperInput';
 export { default as TagLink } from './TagLink';
 export { default as Timer } from './Timer';
+export { default as LazyImage, lazyImageControl } from './LazyImage';

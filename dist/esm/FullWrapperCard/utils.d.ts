@@ -15,7 +15,7 @@ export declare const computedImageSize: (rotateInfo: computedInfoType) => {
   height: number;
 };
 /** 获取放大的倍数 */
-export declare const getMagnification: (scale: number, magnification: number) => any;
+export declare const getMagnification: (scale: number, magnification: number) => number;
 /**
  * 获取横向虚拟列表的一些信息
  * 简单一点 元素的宽高是固定，非动态

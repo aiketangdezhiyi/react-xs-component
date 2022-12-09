@@ -109,7 +109,7 @@ function _arrayWithHoles(arr) {
 import React, { useEffect, useMemo, useState } from 'react';
 import './index.less';
 import { ArrowLeftOutlined, ExpandOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { loadImage, setCommonCls, jsLink } from '../utils/myUtils';
+import { setCommonCls, jsLink } from '../utils/myUtils';
 import Loading from '../Loading';
 import classNames from 'classnames';
 import { useSetState } from 'ahooks';
@@ -118,10 +118,10 @@ import { initBottomState } from './state';
 import FunctionButtonGroup from './components/FunctionButtonGroup';
 import { computedImageSize, getMagnification, getTransverseVirtualListInfo } from './utils';
 import CYQMessage from '../CYQMessage';
-import { boundary, boundaryMax, boundaryMin } from '../utils/math';
 import { useResize } from '../myhooks/useRezie';
 import { useAdaptivePicture } from './hooks/useAdaptivePicture';
 import { useCounterControl } from '../myhooks/useCounterControl';
+import { loadImage, boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
 import { jsx as _jsx } from 'react/jsx-runtime';
 import { Fragment as _Fragment } from 'react/jsx-runtime';
 import { jsxs as _jsxs } from 'react/jsx-runtime';
@@ -192,10 +192,24 @@ var FullWrapperCard = function FullWrapperCard(props) {
   useEffect(
     function () {
       if (typeof show === 'boolean') {
+        // 这个组件变成受控组件
         setShowFullWrapper(show);
       }
     },
     [show],
+  );
+  useEffect(
+    function () {
+      if (showFullWrapper === false) return; // 组件被多次复用时图片数据发生变化时处理的一些逻辑
+
+      var src = images[0] ? images[0] : '';
+      setLoadIdx(preloadNum);
+      setBottomStatus(initBottomState);
+      loadImage(src).then(function () {
+        setShowImageIdx(0);
+      });
+    },
+    [showFullWrapper, images],
   );
   useEffect(
     function () {
@@ -225,23 +239,6 @@ var FullWrapperCard = function FullWrapperCard(props) {
     // 处理当屏幕大小改变之后的一些问题
     setBottomStatus(initBottomState);
   }, 100);
-  useEffect(
-    function () {
-      // 组件被多次复用时图片数据发生变化时处理的一些逻辑
-      var src = images[0] ? images[0] : '';
-
-      function reloadData() {
-        setLoadIdx(preloadNum);
-        setBottomStatus(initBottomState);
-      }
-
-      reloadData();
-      loadImage(src, function () {
-        setShowImageIdx(0);
-      });
-    },
-    [images],
-  );
   useEffect(
     function () {
       if (!wrapperRef.current) {

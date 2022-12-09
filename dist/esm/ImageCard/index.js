@@ -109,9 +109,10 @@ function _arrayWithHoles(arr) {
 import React, { useEffect, useMemo, useState } from 'react';
 import './index.less';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { loadImage, setCompCommonCls } from '../utils/myUtils';
+import { setCompCommonCls } from '../utils/myUtils';
 import Loading from '../Loading';
 import classNames from 'classnames';
+import { loadImage } from 'yuxuannnn_utils';
 import { jsx as _jsx } from 'react/jsx-runtime';
 import { jsxs as _jsxs } from 'react/jsx-runtime';
 
@@ -137,7 +138,7 @@ var ImageCard = function ImageCard(props) {
   useEffect(
     function () {
       var src = images[0] ? images[0] : '';
-      loadImage(src, function () {
+      loadImage(src).then(function () {
         setShowImage(src);
       });
     },

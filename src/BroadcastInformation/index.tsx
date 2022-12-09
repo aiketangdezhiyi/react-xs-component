@@ -5,7 +5,7 @@ import { ICompProps } from '../type';
 import { cloneReactElementArray } from '../utils/reactUtils';
 import './index.less';
 import { getConcatArray } from '../utils/Array';
-import { eventBus, onDocumentVisible } from '../utils/Event';
+import { useEventListener } from 'xshooks';
 
 interface IProps extends ICompProps {
   /** 播放信息列表 */
@@ -126,20 +126,19 @@ const BroadcastInformation = (props: IProps) => {
     setIsEnter(false);
     startBroadcastAnimation();
   };
-
-  useEffect(() => {
-    const handler = () => {
+  useEventListener(
+    'visibilitychange',
+    () => {
       if (document.visibilityState === 'visible') {
         typeof onMouseLeave === 'function' && onMouseLeave();
       } else {
         typeof onMouseEnter === 'function' && onMouseEnter();
       }
-    };
-    eventBus.addEvent(onDocumentVisible, handler);
-    return () => {
-      eventBus.removeEvent(onDocumentVisible, handler);
-    };
-  }, [onMouseLeave, onMouseEnter]);
+    },
+    {
+      target: document,
+    },
+  );
 
   return (
     <div

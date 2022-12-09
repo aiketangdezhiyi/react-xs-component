@@ -1,8 +1,8 @@
-import { boundary } from '../utils/math';
-import { useLatest, useSetState } from 'ahooks';
+import { boundary } from 'yuxuannnn_utils';
+import { useLatest } from 'ahooks';
 import { useRef, useState } from 'react';
-import { useForce } from './useForce';
-import { useMount } from './useMount';
+import { useForce } from 'xshooks';
+import { useMount } from 'xshooks';
 
 /** 纵向拖拽 */
 export const usePortraitDrag = (maxTop: number) => {

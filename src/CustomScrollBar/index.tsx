@@ -3,6 +3,7 @@ import { setCompCommonCls } from '../utils/myUtils';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ICompProps } from '../type';
+import { useEventListener } from 'xshooks';
 import './index.less';
 
 interface IProps extends ICompProps {
@@ -57,6 +58,24 @@ export default (props: IProps) => {
     [children],
   );
 
+  useEventListener(
+    'wheel',
+    (e: any) => {
+      e.preventDefault(); // 注册原生事件阻止父容器滚动
+      if (e.deltaY < 0) {
+        // 向上
+        setDragY(dragY - scrollSpeed);
+      } else {
+        // 向下
+        setDragY(dragY + scrollSpeed);
+      }
+    },
+    {
+      target: scrollDOMRef.current as Element,
+      passive: false,
+    },
+  );
+
   useEffect(() => {
     if (!scrollDOMRef.current) {
       return;
@@ -70,29 +89,6 @@ export default (props: IProps) => {
   if (childrenRef.current && childrenRef.current.offsetHeight <= height) {
     return children;
   }
-
-  useEffect(() => {
-    const handle = (e: any) => {
-      e.preventDefault();
-      if (e.deltaY < 0) {
-        // 向上
-        setDragY(dragY - scrollSpeed);
-      } else {
-        // 向下
-        setDragY(dragY + scrollSpeed);
-      }
-    };
-    if (scrollDOMRef.current) {
-      scrollDOMRef.current.addEventListener('wheel', handle, {
-        passive: false,
-      });
-    }
-    return () => {
-      if (scrollDOMRef.current) {
-        scrollDOMRef.current.removeEventListener('wheel', handle);
-      }
-    };
-  }, [scrollDOMRef.current, dragY, scrollSpeed]);
 
   return (
     <div

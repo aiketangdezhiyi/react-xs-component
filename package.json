@@ -2,7 +2,7 @@
   "private": false,
   "name": "react-xs-component",
   "description": "react 组件",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "author": "xs",
   "license": "MIT",
   "keywords": [
@@ -50,7 +50,8 @@
     "classnames": "^2.3.2",
     "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.1.0",
-    "yuxuannnn_utils": "^1.1.0"
+    "xshooks": "^1.0.0",
+    "yuxuannnn_utils": "^1.1.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",
