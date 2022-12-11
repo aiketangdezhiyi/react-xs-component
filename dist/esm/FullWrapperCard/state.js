@@ -3,7 +3,7 @@ export var initBottomState = {
   scrollWidth: 0,
   isBottomOverflow: false,
   left: 0,
-  resize: true,
+  resize: true
 };
 export var showImageInitState = {
   width: 0,
@@ -17,5 +17,5 @@ export var showImageInitState = {
   // 容器的宽高
   rotateAngle: 0,
   // 旋转角度 0 0 1 90 2 180 3 270
-  magnification: 1,
+  magnification: 1
 };

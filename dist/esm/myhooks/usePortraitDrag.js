@@ -10,11 +10,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-import { boundary } from "../utils/math";
-import { useLatest } from 'ahooks';
+import { boundary } from 'yuxuannnn_utils';
 import { useRef, useState } from 'react';
-import { useForce } from "./useForce";
-import { useMount } from "./useMount";
+import { useForce, useLatest, useMount } from 'xshooks';
 /** 纵向拖拽 */
 
 export var usePortraitDrag = function usePortraitDrag(maxTop) {

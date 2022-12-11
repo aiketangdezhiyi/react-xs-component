@@ -66,7 +66,6 @@ export const getTransverseVirtualListInfo = (
   const startDomLeft = startIdx * width;
 
   return {
-    width,
     startIdx,
     endIdx,
     startDomLeft,

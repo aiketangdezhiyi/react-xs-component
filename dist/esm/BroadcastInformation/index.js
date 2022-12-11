@@ -112,7 +112,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { cloneReactElementArray } from '../utils/reactUtils';
 import './index.less';
 import { getConcatArray } from '../utils/Array';
-import { eventBus, onDocumentVisible } from '../utils/Event';
+import { useEventListener } from 'xshooks';
 import { jsx as _jsx } from 'react/jsx-runtime';
 
 /**
@@ -245,22 +245,18 @@ var BroadcastInformation = function BroadcastInformation(props) {
     startBroadcastAnimation();
   };
 
-  useEffect(
+  useEventListener(
+    'visibilitychange',
     function () {
-      var handler = function handler() {
-        if (document.visibilityState === 'visible') {
-          typeof onMouseLeave === 'function' && onMouseLeave();
-        } else {
-          typeof onMouseEnter === 'function' && onMouseEnter();
-        }
-      };
-
-      eventBus.addEvent(onDocumentVisible, handler);
-      return function () {
-        eventBus.removeEvent(onDocumentVisible, handler);
-      };
+      if (document.visibilityState === 'visible') {
+        typeof onMouseLeave === 'function' && onMouseLeave();
+      } else {
+        typeof onMouseEnter === 'function' && onMouseEnter();
+      }
     },
-    [onMouseLeave, onMouseEnter],
+    {
+      target: document,
+    },
   );
   return /*#__PURE__*/ _jsx('div', {
     className: classNames(getCls('container'), className),

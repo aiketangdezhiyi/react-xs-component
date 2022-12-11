@@ -9,8 +9,6 @@ export interface IProps extends ICompProps {
   onMaskClick?: (status: boolean) => void;
   /** 底层每一张图片的宽度 默认66 */
   bottomImageWidth?: number;
-  /** 优先加载多少张图片 默认27 */
-  preloadNum?: number;
   /** 每次放大缩小的倍数 默认 .25 */
   scale?: number;
   /** 信息提示时长 默认 1000 */
@@ -43,5 +41,4 @@ export type virtualListType = {
   startIdx: number; // 起始渲染的元素的索引
   endIdx: number; // 最终渲染元素的索引
   startDomLeft: number; // 其实元素的偏离位置
-  width: number; // 每一个元素的宽度
 };

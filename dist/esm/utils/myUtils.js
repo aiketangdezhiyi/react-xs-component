@@ -1,41 +1,8 @@
 /**
- * 加载图片，加载完成后调用回调
- * @param src 需要加载的图片
- * @param cb 回调
- */
-export var loadImage = function loadImage(src, cb) {
-  var oImg = new Image();
-
-  oImg.onload = function () {
-    typeof cb === 'function' && cb();
-  };
-
-  oImg.src = src;
-};
-/**
- * 获取图片的原始尺寸
- * @param src
- * @param cb
- */
-
-export var getImageSize = function getImageSize(src, cb) {
-  var oImg = new Image();
-
-  oImg.onload = function () {
-    typeof cb === 'function' && cb({
-      width: this.naturalWidth,
-      height: this.naturalHeight
-    });
-  };
-
-  oImg.src = src;
-};
-/**
  *
  * @param wrapperPrefix
  * @returns
  */
-
 export var setCommonCls = function setCommonCls() {
   for (var _len = arguments.length, wrapperPrefix = new Array(_len), _key = 0; _key < _len; _key++) {
     wrapperPrefix[_key] = arguments[_key];

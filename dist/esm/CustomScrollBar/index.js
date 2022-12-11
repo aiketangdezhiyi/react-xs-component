@@ -110,6 +110,7 @@ import { usePortraitDrag } from '../myhooks/usePortraitDrag';
 import { setCompCommonCls } from '../utils/myUtils';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useEventListener } from 'xshooks';
 import './index.less';
 import { jsx as _jsx } from 'react/jsx-runtime';
 import { jsxs as _jsxs } from 'react/jsx-runtime';
@@ -181,6 +182,24 @@ export default (function (props) {
     },
     [children],
   );
+  useEventListener(
+    'wheel',
+    function (e) {
+      e.preventDefault(); // 注册原生事件阻止父容器滚动
+
+      if (e.deltaY < 0) {
+        // 向上
+        setDragY(dragY - scrollSpeed);
+      } else {
+        // 向下
+        setDragY(dragY + scrollSpeed);
+      }
+    },
+    {
+      target: scrollDOMRef.current,
+      passive: false,
+    },
+  );
   useEffect(
     function () {
       if (!scrollDOMRef.current) {
@@ -199,34 +218,6 @@ export default (function (props) {
     return children;
   }
 
-  useEffect(
-    function () {
-      var handle = function handle(e) {
-        e.preventDefault();
-
-        if (e.deltaY < 0) {
-          // 向上
-          setDragY(dragY - scrollSpeed);
-        } else {
-          // 向下
-          setDragY(dragY + scrollSpeed);
-        }
-      };
-
-      if (scrollDOMRef.current) {
-        scrollDOMRef.current.addEventListener('wheel', handle, {
-          passive: false,
-        });
-      }
-
-      return function () {
-        if (scrollDOMRef.current) {
-          scrollDOMRef.current.removeEventListener('wheel', handle);
-        }
-      };
-    },
-    [scrollDOMRef.current, dragY, scrollSpeed],
-  );
   return /*#__PURE__*/ _jsxs('div', {
     className: classNames(getCls('container'), isDragRef.current ? 'active' : '', className),
     ref: scrollDOMRef,

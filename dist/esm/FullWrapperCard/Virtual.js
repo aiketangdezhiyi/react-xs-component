@@ -106,7 +106,7 @@ function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import { ArrowLeftOutlined, ExpandOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { setCommonCls, jsLink } from '../utils/myUtils';
@@ -116,12 +116,12 @@ import { useSetState } from 'ahooks';
 import { rotateAngleArr } from './type';
 import { initBottomState } from './state';
 import FunctionButtonGroup from './components/FunctionButtonGroup';
-import { computedImageSize, getMagnification, getTransverseVirtualListInfo } from './utils';
+import { computedImageSize, getMagnification } from './utils';
 import CYQMessage from '../CYQMessage';
-import { useResize } from '../myhooks/useRezie';
+import { useWindowResize, useCounterControl } from 'xshooks';
 import { useAdaptivePicture } from './hooks/useAdaptivePicture';
-import { useCounterControl } from '../myhooks/useCounterControl';
 import { loadImage, boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
+import { useRowVirtualList } from './hooks/useRowVirtualList';
 import { jsx as _jsx } from 'react/jsx-runtime';
 import { Fragment as _Fragment } from 'react/jsx-runtime';
 import { jsxs as _jsxs } from 'react/jsx-runtime';
@@ -136,8 +136,6 @@ var FullWrapperCard = function FullWrapperCard(props) {
     onMaskClick = props.onMaskClick,
     _props$bottomImageWid = props.bottomImageWidth,
     bottomImageWidth = _props$bottomImageWid === void 0 ? 60 : _props$bottomImageWid,
-    _props$preloadNum = props.preloadNum,
-    preloadNum = _props$preloadNum === void 0 ? 27 : _props$preloadNum,
     _props$messagePlaying = props.messagePlayingTime,
     messagePlayingTime = _props$messagePlaying === void 0 ? 1000 : _props$messagePlaying,
     _props$scale = props.scale,
@@ -156,21 +154,16 @@ var FullWrapperCard = function FullWrapperCard(props) {
     handleDecreaseWithDebounce = _useCounterControl.handleDecreaseWithDebounce,
     handleIncreaseWithDebounce = _useCounterControl.handleIncreaseWithDebounce;
 
-  var _useState3 = useState(preloadNum),
-    _useState4 = _slicedToArray(_useState3, 2),
-    loadIdx = _useState4[0],
-    setLoadIdx = _useState4[1]; // 已经加载到哪一张图片的索引
-
   var _useAdaptivePicture = useAdaptivePicture(images, showImageIdx, show),
     wrapperRef = _useAdaptivePicture.wrapperRef,
     showImageInfo = _useAdaptivePicture.showImageInfo,
     setShowImageInfo = _useAdaptivePicture.setShowImageInfo,
     showContainerRef = _useAdaptivePicture.showContainerRef;
 
-  var _useState5 = useState(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    showCYQMessage = _useState6[0],
-    setShowCYQMessage = _useState6[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    showCYQMessage = _useState4[0],
+    setShowCYQMessage = _useState4[1];
 
   var _useSetState = useSetState(initBottomState),
     _useSetState2 = _slicedToArray(_useSetState, 2),
@@ -182,12 +175,17 @@ var FullWrapperCard = function FullWrapperCard(props) {
     resize = _useSetState2$.resize,
     setBottomStatus = _useSetState2[1];
 
+  var _useState5 = useState(true),
+    _useState6 = _slicedToArray(_useState5, 2),
+    isLoadingImage = _useState6[0],
+    setIsLoadingImage = _useState6[1];
+
   var getCls = setCommonCls('comp', 'full');
   var width = showImageInfo.width,
     height = showImageInfo.height,
     rotateAngle = showImageInfo.rotateAngle,
     magnification = showImageInfo.magnification;
-  var imageContainerWidth = bottomImageWidth + 6; // 6是两个外边距
+  var itemWidth = bottomImageWidth + 6; // 每一项的宽度 6是两个外边距
 
   useEffect(
     function () {
@@ -203,10 +201,11 @@ var FullWrapperCard = function FullWrapperCard(props) {
       if (showFullWrapper === false) return; // 组件被多次复用时图片数据发生变化时处理的一些逻辑
 
       var src = images[0] ? images[0] : '';
-      setLoadIdx(preloadNum);
       setBottomStatus(initBottomState);
+      setIsLoadingImage(true);
       loadImage(src).then(function () {
         setShowImageIdx(0);
+        setIsLoadingImage(false);
       });
     },
     [showFullWrapper, images],
@@ -235,7 +234,7 @@ var FullWrapperCard = function FullWrapperCard(props) {
     },
     [rotateAngle],
   );
-  useResize(function () {
+  useWindowResize(function () {
     // 处理当屏幕大小改变之后的一些问题
     setBottomStatus(initBottomState);
   }, 100);
@@ -251,94 +250,50 @@ var FullWrapperCard = function FullWrapperCard(props) {
 
       if (!resize) {
         return;
-      } // 开启虚拟列表
+      }
 
       setBottomStatus({
-        scrollWidth: imageContainerWidth * images.length,
+        scrollWidth: itemWidth * images.length,
         offsetWidth: wrapperRef.current.offsetWidth - 60,
         // 60 是按钮的大小
-        isBottomOverflow: imageContainerWidth * images.length > wrapperRef.current.offsetWidth,
+        isBottomOverflow: itemWidth * images.length > wrapperRef.current.offsetWidth,
         resize: false,
       });
     },
     [wrapperRef.current, showFullWrapper, images, resize],
   );
-  var imgList = useMemo(
-    function () {
-      // 当图片的整体数量不超过容器时要做居中处理
-      if (scrollWidth <= offsetWidth) {
-        return images.map(function (imgSrc, i) {
-          return /*#__PURE__*/ _jsx(
-            'div',
-            {
-              className: getCls('item'),
-              onClick: function onClick() {
-                setShowImageIdx(i);
-              },
-              children: /*#__PURE__*/ _jsx('img', {
-                src: i < loadIdx ? imgSrc : '',
-                style: {
-                  width: bottomImageWidth,
-                  height: bottomImageWidth,
-                },
-                className: images[showImageIdx] === imgSrc ? 'active' : '',
-                alt: '',
-              }),
+  var virtualList = useRowVirtualList(
+    images,
+    function (it) {
+      return /*#__PURE__*/ _jsx(
+        'div',
+        {
+          style: {
+            position: 'absolute',
+            left: it.left,
+          },
+          className: getCls('item'),
+          onClick: function onClick() {
+            setShowImageIdx(it.idx);
+          },
+          children: /*#__PURE__*/ _jsx('img', {
+            src: it.origin,
+            style: {
+              width: bottomImageWidth,
+              height: bottomImageWidth,
             },
-            imgSrc,
-          );
-        });
-      }
-
-      var _getTransverseVirtual = getTransverseVirtualListInfo(
-          imageContainerWidth,
-          left,
-          offsetWidth,
-          images.length,
-        ),
-        width = _getTransverseVirtual.width,
-        startIdx = _getTransverseVirtual.startIdx,
-        endIdx = _getTransverseVirtual.endIdx,
-        startDomLeft = _getTransverseVirtual.startDomLeft;
-
-      var virtualList = []; // 虚拟列表
-
-      var _loop = function _loop(i, j) {
-        var imgSrc = images[i];
-        virtualList.push(
-          /*#__PURE__*/ _jsx(
-            'div',
-            {
-              style: {
-                position: 'absolute',
-                left: startDomLeft + width * j,
-              },
-              className: getCls('item'),
-              onClick: function onClick() {
-                setShowImageIdx(i);
-              },
-              children: /*#__PURE__*/ _jsx('img', {
-                src: i < loadIdx ? imgSrc : '',
-                style: {
-                  width: bottomImageWidth,
-                  height: bottomImageWidth,
-                },
-                className: images[showImageIdx] === imgSrc ? 'active' : '',
-                alt: '',
-              }),
-            },
-            imgSrc,
-          ),
-        );
-      };
-
-      for (var i = startIdx, j = 0; i <= endIdx; i++, j++) {
-        _loop(i, j);
-      }
-
-      return virtualList;
+            className: images[showImageIdx] === it.origin ? 'active' : '',
+            alt: '',
+          }),
+        },
+        it.origin,
+      );
     },
-    [images, scrollWidth, offsetWidth, left, showFullWrapper, showImageIdx, loadIdx],
+    {
+      width: itemWidth,
+      containerWidth: offsetWidth,
+      left: left,
+    },
   );
 
   var handleMaskHidden = function handleMaskHidden(e) {
@@ -354,33 +309,21 @@ var FullWrapperCard = function FullWrapperCard(props) {
 
   var handleTranslateLeft = function handleTranslateLeft() {
     var n = Math.floor(offsetWidth / bottomImageWidth);
-    var translateX = boundaryMin(left - n * imageContainerWidth, 0);
+    var translateX = boundaryMin(left - n * itemWidth, 0);
     setBottomStatus({
       left: translateX,
     });
   };
 
   var handleTranslateRight = function handleTranslateRight() {
-    var n = Math.floor(offsetWidth / imageContainerWidth);
+    var n = Math.floor(offsetWidth / itemWidth);
     var max = scrollWidth - offsetWidth + 60; // 60是按钮的宽度
 
-    var translateX = boundaryMax(left + n * imageContainerWidth, max);
+    var translateX = boundaryMax(left + n * itemWidth, max);
     setBottomStatus({
       left: translateX,
     });
-  };
-
-  useEffect(
-    function () {
-      // 处理下部图片滑动时请求的图片数量
-      var boundIdx = Math.ceil((left + offsetWidth) / imageContainerWidth);
-
-      if (boundIdx > loadIdx && loadIdx < images.length) {
-        setLoadIdx(boundIdx + 5);
-      }
-    },
-    [left],
-  ); // 功能性按钮
+  }; // 功能性按钮
 
   var handleFullScreenImage = function handleFullScreenImage() {
     jsLink(images[showImageIdx]);
@@ -418,9 +361,9 @@ var FullWrapperCard = function FullWrapperCard(props) {
 
   var handleRelocation = function handleRelocation() {
     // 定位到当前图片
-    var n = Math.floor(offsetWidth / imageContainerWidth / 2);
+    var n = Math.floor(offsetWidth / itemWidth / 2);
     setBottomStatus({
-      left: boundary((showImageIdx - n) * imageContainerWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
+      left: boundary((showImageIdx - n) * itemWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
     });
   };
 
@@ -433,98 +376,97 @@ var FullWrapperCard = function FullWrapperCard(props) {
       style,
     ),
     children: [
-      images[showImageIdx] === ''
-        ? /*#__PURE__*/ _jsx(Loading, {})
-        : /*#__PURE__*/ _jsxs('div', {
-            ref: showContainerRef,
-            onWheelCapture: function onWheelCapture(e) {
-              e.stopPropagation();
-              e.preventDefault();
+      /*#__PURE__*/ _jsxs('div', {
+        ref: showContainerRef,
+        onWheelCapture: function onWheelCapture(e) {
+          e.stopPropagation();
 
-              if (e.deltaY < 0) {
-                // 上一张图片
-                handleDecreaseWithDebounce();
-              } else {
-                handleIncreaseWithDebounce();
-              }
-            },
-            className: getCls('show-container'),
-            onClick: handleMaskHidden,
+          if (e.deltaY < 0) {
+            // 上一张图片
+            handleDecreaseWithDebounce();
+          } else {
+            handleIncreaseWithDebounce();
+          }
+        },
+        className: getCls('show-container'),
+        onClick: handleMaskHidden,
+        style: {
+          height: 'calc(100% - '.concat(bottomImageWidth + 20, 'px)'),
+        },
+        children: [
+          /*#__PURE__*/ _jsx(FunctionButtonGroup, {
             style: {
-              height: 'calc(100% - '.concat(bottomImageWidth + 20, 'px)'),
+              position: 'absolute',
+              right: '2vw',
+              top: '2vw',
+              zIndex: 10,
             },
-            children: [
-              /*#__PURE__*/ _jsx(FunctionButtonGroup, {
-                style: {
-                  position: 'absolute',
-                  right: '2vw',
-                  top: '2vw',
-                  zIndex: 10,
-                },
-                btnTypeGroup: [
-                  'full',
-                  'left-rotate',
-                  'right-rotate',
-                  'scale-small',
-                  'scale-big',
-                  'location',
-                  'download',
-                ],
-                btnTypeGroupClick: [
-                  handleFullScreenImage,
-                  handleRotateLeft,
-                  handleRotateRight,
-                  handleScaleSmall,
-                  handleScaleBig,
-                  handleRelocation,
-                ],
-              }),
-              /*#__PURE__*/ _jsx(CYQMessage, {
-                show: showCYQMessage,
-                showTime: messagePlayingTime,
-                duration: 600,
-                children: /*#__PURE__*/ _jsxs(_Fragment, {
-                  children: [
-                    /*#__PURE__*/ _jsx(ExpandOutlined, {
-                      style: {
-                        fontSize: 25,
-                        marginRight: 5,
-                      },
-                    }),
-                    Math.floor(magnification * 100),
-                    '%',
-                  ],
+            btnTypeGroup: [
+              'full',
+              'left-rotate',
+              'right-rotate',
+              'scale-small',
+              'scale-big',
+              'location',
+              'download',
+            ],
+            btnTypeGroupClick: [
+              handleFullScreenImage,
+              handleRotateLeft,
+              handleRotateRight,
+              handleScaleSmall,
+              handleScaleBig,
+              handleRelocation,
+            ],
+          }),
+          /*#__PURE__*/ _jsx(CYQMessage, {
+            show: showCYQMessage,
+            showTime: messagePlayingTime,
+            duration: 600,
+            children: /*#__PURE__*/ _jsxs(_Fragment, {
+              children: [
+                /*#__PURE__*/ _jsx(ExpandOutlined, {
+                  style: {
+                    fontSize: 25,
+                    marginRight: 5,
+                  },
                 }),
-              }),
-              /*#__PURE__*/ _jsx('div', {
-                className: classNames(getCls('show-btn'), getCls('show-back')),
-                onClick: function onClick() {
-                  onMaskClick && onMaskClick(show);
-                  setShowFullWrapper(false);
-                },
-                children: /*#__PURE__*/ _jsx(ArrowLeftOutlined, {}),
-              }),
-              /*#__PURE__*/ _jsx('div', {
-                className: classNames(getCls('show-btn'), getCls('show-left')),
-                onClick: handleChangeLeft,
-                children: /*#__PURE__*/ _jsx(LeftOutlined, {}),
-              }),
-              /*#__PURE__*/ _jsx('div', {
-                className: classNames(getCls('show-btn'), getCls('show-right')),
-                onClick: handleChangeRight,
-                children: /*#__PURE__*/ _jsx(RightOutlined, {}),
-              }),
-              /*#__PURE__*/ _jsx('img', {
+                Math.floor(magnification * 100),
+                '%',
+              ],
+            }),
+          }),
+          /*#__PURE__*/ _jsx('div', {
+            className: classNames(getCls('show-btn'), getCls('show-back')),
+            onClick: function onClick() {
+              onMaskClick && onMaskClick(show);
+              setShowFullWrapper(false);
+            },
+            children: /*#__PURE__*/ _jsx(ArrowLeftOutlined, {}),
+          }),
+          /*#__PURE__*/ _jsx('div', {
+            className: classNames(getCls('show-btn'), getCls('show-left')),
+            onClick: handleChangeLeft,
+            children: /*#__PURE__*/ _jsx(LeftOutlined, {}),
+          }),
+          /*#__PURE__*/ _jsx('div', {
+            className: classNames(getCls('show-btn'), getCls('show-right')),
+            onClick: handleChangeRight,
+            children: /*#__PURE__*/ _jsx(RightOutlined, {}),
+          }),
+          isLoadingImage
+            ? /*#__PURE__*/ _jsx(Loading, {})
+            : /*#__PURE__*/ _jsx('img', {
                 style: {
                   width: width * magnification,
                   height: height * magnification,
                   transform: 'rotate('.concat(rotateAngleArr[rotateAngle], 'deg)'),
                 },
-                src: images[showImageIdx] ? images[showImageIdx] : '',
+                src: images[showImageIdx] && !isLoadingImage ? images[showImageIdx] : '',
                 alt: '',
               }),
-            ],
-          }),
+        ],
+      }),
       /*#__PURE__*/ _jsxs('div', {
         className: getCls('bottom-container'),
         style: {
@@ -561,7 +503,30 @@ var FullWrapperCard = function FullWrapperCard(props) {
               height: bottomImageWidth,
             },
             className: getCls('bottom-list'),
-            children: imgList,
+            children:
+              scrollWidth <= offsetWidth
+                ? images.map(function (imgSrc, i) {
+                    return /*#__PURE__*/ _jsx(
+                      'div',
+                      {
+                        className: getCls('item'),
+                        onClick: function onClick() {
+                          setShowImageIdx(i);
+                        },
+                        children: /*#__PURE__*/ _jsx('img', {
+                          src: imgSrc,
+                          style: {
+                            width: bottomImageWidth,
+                            height: bottomImageWidth,
+                          },
+                          className: images[showImageIdx] === imgSrc ? 'active' : '',
+                          alt: '',
+                        }),
+                      },
+                      imgSrc,
+                    );
+                  })
+                : virtualList,
           }),
         ],
       }),

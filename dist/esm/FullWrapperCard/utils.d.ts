@@ -1,18 +1,18 @@
 import { virtualListType } from './type';
 export declare type computedInfoType = {
-  originWidth: number;
-  originHeight: number;
-  containerWidth: number;
-  containerHeight: number;
-  rotateAngle: number;
+    originWidth: number;
+    originHeight: number;
+    containerWidth: number;
+    containerHeight: number;
+    rotateAngle: number;
 };
 /**
  * 通过给定数据计算出合适的图片展示宽高
  * @param rotateInfo
  */
 export declare const computedImageSize: (rotateInfo: computedInfoType) => {
-  width: number;
-  height: number;
+    width: number;
+    height: number;
 };
 /** 获取放大的倍数 */
 export declare const getMagnification: (scale: number, magnification: number) => number;
@@ -25,9 +25,4 @@ export declare const getMagnification: (scale: number, magnification: number) =>
  * @param offsetWith 容器元素展示区域的宽度
  * @param reality dom真实数量
  */
-export declare const getTransverseVirtualListInfo: (
-  width: number,
-  left: number,
-  offsetWith: number,
-  reality: number,
-) => virtualListType;
+export declare const getTransverseVirtualListInfo: (width: number, left: number, offsetWith: number, reality: number) => virtualListType;
