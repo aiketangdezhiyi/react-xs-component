@@ -1,5 +1,5 @@
 import { boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
-import { ERotateAngle } from "./type";
+import { ERotateAngle } from './type';
 
 /**
  * 通过给定数据计算出合适的图片展示宽高
@@ -7,17 +7,19 @@ import { ERotateAngle } from "./type";
  */
 export var computedImageSize = function computedImageSize(rotateInfo) {
   var originHeight = rotateInfo.originHeight,
-      originWidth = rotateInfo.originWidth,
-      containerHeight = rotateInfo.containerHeight,
-      containerWidth = rotateInfo.containerWidth,
-      rotateAngle = rotateInfo.rotateAngle; // 有个非常巧妙的处理过程 图片不看内容的话 是不是旋转一下就是图片的宽高改变了
+    originWidth = rotateInfo.originWidth,
+    containerHeight = rotateInfo.containerHeight,
+    containerWidth = rotateInfo.containerWidth,
+    rotateAngle = rotateInfo.rotateAngle; // 有个非常巧妙的处理过程 图片不看内容的话 是不是旋转一下就是图片的宽高改变了
 
-  if (rotateAngle === ERotateAngle.ninety || rotateAngle === ERotateAngle['two hundred and seventy']) {
+  if (
+    rotateAngle === ERotateAngle.ninety ||
+    rotateAngle === ERotateAngle['two hundred and seventy']
+  ) {
     var _ref = [containerHeight, containerWidth];
     containerWidth = _ref[0];
     containerHeight = _ref[1];
   } // 下面的处理过程适用
-
 
   var widthRate = originWidth / containerWidth;
   var heightRate = originHeight / containerHeight;
@@ -26,12 +28,12 @@ export var computedImageSize = function computedImageSize(rotateInfo) {
     // 比值大的一边撑满
     return {
       width: containerWidth,
-      height: originHeight / widthRate
+      height: originHeight / widthRate,
     };
   } else {
     return {
       width: originWidth / heightRate,
-      height: containerHeight
+      height: containerHeight,
     };
   }
 };
@@ -50,13 +52,18 @@ export var getMagnification = function getMagnification(scale, magnification) {
  * @param reality dom真实数量
  */
 
-export var getTransverseVirtualListInfo = function getTransverseVirtualListInfo(width, left, offsetWith, reality) {
+export var getTransverseVirtualListInfo = function getTransverseVirtualListInfo(
+  width,
+  left,
+  offsetWith,
+  reality,
+) {
   var startIdx = boundaryMin(Math.floor(left / width) - 10, 0);
   var endIdx = boundaryMax(Math.ceil((left + offsetWith) / width) + 10, reality - 1);
   var startDomLeft = startIdx * width;
   return {
     startIdx: startIdx,
     endIdx: endIdx,
-    startDomLeft: startDomLeft
+    startDomLeft: startDomLeft,
   };
 };

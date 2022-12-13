@@ -4,18 +4,26 @@
  * @returns
  */
 export var setCommonCls = function setCommonCls() {
-  for (var _len = arguments.length, wrapperPrefix = new Array(_len), _key = 0; _key < _len; _key++) {
+  for (
+    var _len = arguments.length, wrapperPrefix = new Array(_len), _key = 0;
+    _key < _len;
+    _key++
+  ) {
     wrapperPrefix[_key] = arguments[_key];
   }
 
   return function (className) {
     return wrapperPrefix.concat(className).reduce(function (prefix, curPrefix) {
-      return "".concat(prefix, "-").concat(curPrefix);
+      return ''.concat(prefix, '-').concat(curPrefix);
     });
   };
 };
 export var setCompCommonCls = function setCompCommonCls() {
-  for (var _len2 = arguments.length, wrapperPrefix = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+  for (
+    var _len2 = arguments.length, wrapperPrefix = new Array(_len2), _key2 = 0;
+    _key2 < _len2;
+    _key2++
+  ) {
     wrapperPrefix[_key2] = arguments[_key2];
   }
 

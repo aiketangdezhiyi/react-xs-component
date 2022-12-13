@@ -10,10 +10,9 @@ import { initBottomState } from './state';
 import FunctionButtonGroup from './components/FunctionButtonGroup';
 import { computedImageSize, getMagnification } from './utils';
 import CYQMessage from '../CYQMessage';
-import { useWindowResize, useCounterControl } from 'xshooks';
+import { useWindowResize, useCounterControl, useRowVirtualList } from 'xshooks';
 import { useAdaptivePicture } from './hooks/useAdaptivePicture';
 import { loadImage, boundary, boundaryMax, boundaryMin } from 'yuxuannnn_utils';
-import { useRowVirtualList } from './hooks/useRowVirtualList';
 
 const FullWrapperCard = (props: IProps) => {
   const {
