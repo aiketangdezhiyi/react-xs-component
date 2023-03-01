@@ -5,13 +5,16 @@
 ### 与相册组件联合使用
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Album, FullWrapperCard } from 'react-xs-component';
 import { images1, images2, images3 } from './test/images';
 
 export default () => {
   const [show, setShow] = useState(false);
   const [images, setImages] = useState<string[]>([]);
+  const [startIdx, setStartIdx] = useState(0);
+  const lastIdx = useRef(0);
+
   return (
     <div
       style={{
@@ -54,6 +57,7 @@ export default () => {
       <FullWrapperCard
         onMaskClick={() => {
           setShow(false);
+          setStartIdx(lastIdx.current);
         }}
         style={{
           width: '100vw',
@@ -67,6 +71,10 @@ export default () => {
         bottomImageWidth={80}
         show={show}
         images={images}
+        startIdx={startIdx}
+        onUpdateViewIndex={(viewIdx) => {
+          lastIdx.current = viewIdx;
+        }}
       ></FullWrapperCard>
     </div>
   );
@@ -97,6 +105,12 @@ export default () => {
 
 2022/07/19 新增虚拟列表优化
 
+2022/3/1
+
+- 底部浏览区域实时更新位置
+- 父组件可以指定开始浏览的元素
+- 提供事件父组件可以记录浏览的元素索引
+
 ## api
 
 | option | description | type | required | example | remark |
@@ -108,3 +122,5 @@ export default () => {
 | preloadNum | 优先加载多少张图片 默认 27 | number | false |  |  |
 | scale | 每次放大缩小的倍数 默认 .25 | number | false |  |  |
 | messagePlayingTime | 信息提示时长 默认 1000 | number | false |  |  |
+| startIdx | 父组件可以指定开始浏览的元素 | number | false |  |  |
+| onUpdateViewIndex | 提供函数更新当前浏览的页数 | (viewIdx: number) => void | false |  |  |

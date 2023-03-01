@@ -13,6 +13,10 @@ export interface IProps extends ICompProps {
   scale?: number;
   /** 信息提示时长 默认 1000 */
   messagePlayingTime?: number;
+  /** 组件打开后从第几张开始浏览 */
+  startIdx?: number;
+  /** 提供函数更新当前浏览的页数 */
+  onUpdateViewIndex?: (viewIdx: number) => void;
 }
 
 export type rotateAngelType = 0 | 90 | 180 | 270; // 旋转角度

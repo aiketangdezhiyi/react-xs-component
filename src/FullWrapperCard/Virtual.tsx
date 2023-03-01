@@ -24,6 +24,8 @@ const FullWrapperCard = (props: IProps) => {
     bottomImageWidth = 60,
     messagePlayingTime = 1000,
     scale = 0.25,
+    startIdx = 0,
+    onUpdateViewIndex,
   } = props;
 
   const [showFullWrapper, setShowFullWrapper] = useState<boolean>(false); // 是否展示全容器图片组件
@@ -63,10 +65,27 @@ const FullWrapperCard = (props: IProps) => {
     setBottomStatus(initBottomState);
     setIsLoadingImage(true);
     loadImage(src).then(() => {
-      setShowImageIdx(0);
+      if (typeof startIdx === 'number' && startIdx < images.length) {
+        setShowImageIdx(startIdx); // 父组件指定开始浏览的元素索引
+      } else {
+        setShowImageIdx(0);
+      }
       setIsLoadingImage(false);
     });
-  }, [showFullWrapper, images]);
+  }, [showFullWrapper, images, startIdx]);
+
+  const handleRelocation = () => {
+    // 定位到当前图片
+    const n = Math.floor(offsetWidth / itemWidth / 2);
+    setBottomStatus({
+      left: boundary((showImageIdx - n) * itemWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
+    });
+  };
+
+  useEffect(() => {
+    handleRelocation();
+    typeof onUpdateViewIndex === 'function' && onUpdateViewIndex(showImageIdx);
+  }, [showImageIdx]);
 
   useEffect(() => {
     if (showFullWrapper) {
@@ -201,14 +220,6 @@ const FullWrapperCard = (props: IProps) => {
   };
   const handleScaleSmall = () => {
     handleScale(-scale);
-  };
-
-  const handleRelocation = () => {
-    // 定位到当前图片
-    const n = Math.floor(offsetWidth / itemWidth / 2);
-    setBottomStatus({
-      left: boundary((showImageIdx - n) * itemWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
-    });
   };
 
   return (
