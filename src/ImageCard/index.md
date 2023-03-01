@@ -32,9 +32,7 @@ export default () => {
 };
 ```
 
-### 待优化
-
-> 图片可以选择位置效果
+> 建议使用功能更加强的 RelaxImageCard 组件
 
 ## api
 

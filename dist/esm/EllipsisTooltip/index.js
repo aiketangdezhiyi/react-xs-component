@@ -182,7 +182,7 @@ function EllipsisTooltip(props) {
       {},
       {
         popupVisible: isEllipsis && visible,
-        onVisibleChange: setVisible,
+        onOpenChange: setVisible,
         children: createChildren(),
       },
     ),

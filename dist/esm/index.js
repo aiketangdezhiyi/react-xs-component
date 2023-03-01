@@ -19,3 +19,4 @@ export { default as SwiperInput } from "./SwiperInput";
 export { default as TagLink } from "./TagLink";
 export { default as Timer } from "./Timer";
 export { default as LazyImage, lazyImageControl } from "./LazyImage";
+export { default as RelaxImageCard } from "./RelaxImageCard";

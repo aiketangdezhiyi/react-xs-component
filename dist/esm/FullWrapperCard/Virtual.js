@@ -138,7 +138,10 @@ var FullWrapperCard = function FullWrapperCard(props) {
     _props$messagePlaying = props.messagePlayingTime,
     messagePlayingTime = _props$messagePlaying === void 0 ? 1000 : _props$messagePlaying,
     _props$scale = props.scale,
-    scale = _props$scale === void 0 ? 0.25 : _props$scale;
+    scale = _props$scale === void 0 ? 0.25 : _props$scale,
+    _props$startIdx = props.startIdx,
+    startIdx = _props$startIdx === void 0 ? 0 : _props$startIdx,
+    onUpdateViewIndex = props.onUpdateViewIndex;
 
   var _useState = useState(false),
     _useState2 = _slicedToArray(_useState, 2),
@@ -203,11 +206,32 @@ var FullWrapperCard = function FullWrapperCard(props) {
       setBottomStatus(initBottomState);
       setIsLoadingImage(true);
       loadImage(src).then(function () {
-        setShowImageIdx(0);
+        if (typeof startIdx === 'number' && startIdx < images.length) {
+          setShowImageIdx(startIdx); // 父组件指定开始浏览的元素索引
+        } else {
+          setShowImageIdx(0);
+        }
+
         setIsLoadingImage(false);
       });
     },
-    [showFullWrapper, images],
+    [showFullWrapper, images, startIdx],
+  );
+
+  var handleRelocation = function handleRelocation() {
+    // 定位到当前图片
+    var n = Math.floor(offsetWidth / itemWidth / 2);
+    setBottomStatus({
+      left: boundary((showImageIdx - n) * itemWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
+    });
+  };
+
+  useEffect(
+    function () {
+      handleRelocation();
+      typeof onUpdateViewIndex === 'function' && onUpdateViewIndex(showImageIdx);
+    },
+    [showImageIdx],
   );
   useEffect(
     function () {
@@ -356,14 +380,6 @@ var FullWrapperCard = function FullWrapperCard(props) {
 
   var handleScaleSmall = function handleScaleSmall() {
     handleScale(-scale);
-  };
-
-  var handleRelocation = function handleRelocation() {
-    // 定位到当前图片
-    var n = Math.floor(offsetWidth / itemWidth / 2);
-    setBottomStatus({
-      left: boundary((showImageIdx - n) * itemWidth, 0, scrollWidth - offsetWidth + 60), // 6 是两个外边距
-    });
   };
 
   return /*#__PURE__*/ _jsxs('div', {
