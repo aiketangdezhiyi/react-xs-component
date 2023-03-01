@@ -29,7 +29,7 @@ function EllipsisTooltip(props: IProps) {
   );
 
   return (
-    <Tooltip {...restProps} popupVisible={isEllipsis && visible} onVisibleChange={setVisible}>
+    <Tooltip {...restProps} popupVisible={isEllipsis && visible} onOpenChange={setVisible}>
       {createChildren()}
     </Tooltip>
   );

@@ -7,17 +7,13 @@ import { showImageInfoType } from '../type';
  * @param show 是否展示
  * @returns
  */
-export declare const useAdaptivePicture: (
-  images: string[],
-  showImageIdx: number,
-  show: boolean,
-) => {
-  showImageInfo: showImageInfoType;
-  setShowImageInfo: import('ahooks/lib/useSetState').SetState<showImageInfoType>;
-  showContainerRef: import('react').RefObject<HTMLDivElement>;
-  wrapperRef: import('react').RefObject<HTMLDivElement>;
-  width: number;
-  height: number;
-  rotateAngle: number;
-  magnification: number;
+export declare const useAdaptivePicture: (images: string[], showImageIdx: number, show: boolean) => {
+    showImageInfo: showImageInfoType;
+    setShowImageInfo: import("ahooks/lib/useSetState").SetState<showImageInfoType>;
+    showContainerRef: import("react").RefObject<HTMLDivElement>;
+    wrapperRef: import("react").RefObject<HTMLDivElement>;
+    width: number;
+    height: number;
+    rotateAngle: number;
+    magnification: number;
 };
