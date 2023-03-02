@@ -1,124 +1,131 @@
 .comp-relax-img-list-wrapper {
-    img {
-        -o-object-fit: cover;
-        object-fit   : cover;
-        width        : 100%;
-        height       : 100%;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
 }
 
 .comp-relax-img-bottom-list {
-    display           : -webkit-box;
-    display           : -webkit-flex;
-    display           : -ms-flexbox;
-    margin            : 10px 0;
-    -webkit-transform : translateX(0);
-    transform         : translateX(0);
-    -webkit-transition: -webkit-transform .5s;
-    transition        : -webkit-transform .5s;
-    transition        : transform .5s;
-    transition        : transform .5s, -webkit-transform .5s;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  margin: 10px 0;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
 
-    .comp-relax-img-item {
-        cursor            : pointer;
-        display           : inline-block;
-        position          : relative;
-        border            : 4px solid transparent;
-        -webkit-box-sizing: border-box;
-        box-sizing        : border-box;
-        border-radius     : 8px;
-        overflow          : hidden;
-        font-size         : 0;
+  .comp-relax-img-item {
+    position: relative;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-size: 0;
+    border: 4px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
 
-        &::after {
-            content         : "";
-            position        : absolute;
-            width           : 100%;
-            height          : 100%;
-            background-color: rgba(0, 0, 0, .5);
-            left            : 0;
-            top             : 0;
-        }
-
-        &.active {
-            border-color: #ea8011;
-
-            &::after {
-                background-color: rgba(0, 0, 0, 0);
-            }
-        }
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      content: '';
     }
 
-    img {
-        display           : block;
-        width             : 100%;
-        height            : 100%;
-        -webkit-box-sizing: border-box;
-        box-sizing        : border-box;
-        border-radius     : 5px;
+    &.active {
+      border-color: #ea8011;
 
-
+      &::after {
+        background-color: rgba(0, 0, 0, 0);
+      }
     }
+  }
+
+  img {
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
 }
 
 .comp-relax-img {
-    &-show-container {
-        position: relative;
-        z-index : 1;
+  &-show-container {
+    position: relative;
+    z-index: 1;
 
-        .cursor-area {
-            height  : 100%;
-            position: absolute;
-            top     : 0;
-
-            &.left-cursor-area {
-                left  : 0;
-                cursor: url(https://img.t.sinajs.cn/t6/style/images/common/pic_prev.cur), auto;
-            }
-
-            &.right-cursor-area {
-                right : 0;
-                cursor: url(https://img.t.sinajs.cn/t6/style/images/common/pic_next.cur), auto;
-            }
-        }
+    &:hover {
+      .comp-relax-img-bar {
+        opacity: 1;
+      }
     }
 
-    &-bottom-container {
-        width   : 100%;
-        position: relative;
+    .cursor-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
 
-        .left,
-        .right {
-            position          : absolute;
-            top               : 10px;
-            font-size         : 16px;
-            text-align        : center;
-            color             : #d3d3d3;
-            cursor            : pointer;
-            -webkit-transition: color .5s;
-            transition        : color .5s;
-            z-index           : 1;
-            -webkit-transform : translateX(-100%);
-            transform         : translateX(-100%);
+      &.left-cursor-area {
+        left: 0;
+        cursor: url(https://img.t.sinajs.cn/t6/style/images/common/pic_prev.cur), auto;
+      }
 
-            &:hover {
-                color: #666;
-            }
-        }
+      &.right-cursor-area {
+        right: 0;
+        cursor: url(https://img.t.sinajs.cn/t6/style/images/common/pic_next.cur), auto;
+      }
+    }
+  }
 
-        .right {
-            right            : 0;
-            -webkit-transform: translateX(100%);
-            transform        : translateX(100%);
-        }
+  &-bottom-container {
+    position: relative;
+    width: 100%;
+
+    .left,
+    .right {
+      position: absolute;
+      top: 10px;
+      z-index: 1;
+      color: #d3d3d3;
+      font-size: 16px;
+      text-align: center;
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+      cursor: pointer;
+      -webkit-transition: color 0.5s;
+      transition: color 0.5s;
+
+      &:hover {
+        color: #666;
+      }
     }
 
-
-    &-bar {
-        position         : absolute;
-        left             : 50%;
-        -webkit-transform: translateX(-50%);
-        transform        : translateX(-50%);
-        bottom           : 10%;
+    .right {
+      right: 0;
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
     }
+  }
+
+  &-bar {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    z-index: 2;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    opacity: 0;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+  }
 }

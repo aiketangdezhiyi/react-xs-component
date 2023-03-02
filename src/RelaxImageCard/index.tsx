@@ -18,6 +18,8 @@ interface IProps {
   startIdx?: number;
   /** 每一项的宽度 */
   itemWidth?: number;
+  /** 提供函数更新当前浏览的页数 */
+  onUpdateViewIndex?: (viewIdx: number) => void;
 }
 
 const RelaxImageCard = (props: IProps) => {
@@ -29,6 +31,7 @@ const RelaxImageCard = (props: IProps) => {
     renderBar = () => null,
     startIdx = 0,
     itemWidth = 60,
+    onUpdateViewIndex,
   } = props;
   const [showIdx, setShowIdx] = useState<number>(startIdx || 0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -45,6 +48,10 @@ const RelaxImageCard = (props: IProps) => {
       });
     }
   }, [images]);
+
+  useEffect(() => {
+    typeof onUpdateViewIndex === 'function' && onUpdateViewIndex(showIdx);
+  }, [showIdx]);
 
   const ImgList = useMemo(
     () =>
@@ -91,6 +98,9 @@ const RelaxImageCard = (props: IProps) => {
 
   const handleRelocation = () => {
     // 定位到当前图片
+    if (Number(domRef?.current?.offsetWidth) >= images.length * itemWidth) {
+      return;
+    }
     const n = Math.floor(Number(domRef?.current?.offsetWidth) / itemWidth / 2);
     const max = itemWidth * images.length - (domRef.current?.offsetWidth || 0);
     setTranslateX(-boundary(showIdx * itemWidth - n * itemWidth, 0, max));
