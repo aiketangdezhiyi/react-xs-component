@@ -1,58 +1,60 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { ImgHTMLAttributes, useCallback, useEffect, useRef } from 'react';
 import { ICompProps } from '../type';
-import { lazyImageControl } from 'yuxuannnn_utils';
-import { Skeleton } from 'antd';
-
-import './index.less';
-import { setCompCommonCls } from '../utils/myUtils';
+import lazyImageObserver from './utils/LazyImageObserver';
+import styles from './index.module.less';
 import classNames from 'classnames';
-import { useUnmount } from 'xshooks';
 
 interface IProps extends ICompProps {
+  /** 预览图 */
+  previewSrc: string;
+  /** 实际展示的图片 */
+  src: string;
+  /** 控制图片的样式 */
   imgStyle?: React.CSSProperties;
+  /** 图片加载完成的回调 */
+  onShow?: () => void;
 }
 
-const LazyImage = (props: IProps & React.ImgHTMLAttributes<HTMLImageElement>) => {
-  const [curSrc, setCurSrc] = useState('');
-  const [show, setShow] = useState(false);
-  const { imgStyle, src = '', className, style, ...restProps } = props;
-  const inputRef = useRef<HTMLImageElement | null>(null);
-  const setTextInputRef = useCallback((ele: HTMLImageElement) => {
-    if (ele) {
-      inputRef.current = ele;
-      lazyImageControl.add({
-        src,
-        ele,
-        onShow: () => {
-          setCurSrc(src);
-          setShow(true);
-        },
-      });
-    }
+type Props = IProps & ImgHTMLAttributes<HTMLImageElement>;
+
+const LazyImage = (props: Props) => {
+  const { previewSrc, src, onShow, imgStyle, className, style, ...restProps } = props;
+  const imageDOMRef = useRef<HTMLImageElement>();
+  const isFirstRef = useRef(true); // 是否是第一次回调ref执行
+
+  // 组件控制收集与监听 这样更加通用
+  const observer = useCallback(() => {
+    imageDOMRef.current && lazyImageObserver.observerImageDOM(imageDOMRef.current, onShow);
   }, []);
 
-  useUnmount(() => {
-    lazyImageControl.removeItem(inputRef?.current);
-  });
-
-  const getCls = setCompCommonCls('lazy-image');
+  useEffect(() => {
+    if (imageDOMRef.current) {
+      observer();
+    }
+    return () => {
+      imageDOMRef.current && lazyImageObserver.unObserverImageDOM(imageDOMRef.current);
+    };
+  }, []);
 
   return (
-    <div className={classNames(className, getCls('container'))} style={style}>
-      {show ? null : <Skeleton.Input active></Skeleton.Input>}
-      <img
-        ref={setTextInputRef}
-        style={{
-          position: show ? 'initial' : 'absolute',
-          ...imgStyle,
-        }}
-        src={curSrc}
-        {...restProps}
-      />
-    </div>
+    <img
+      className={classNames(styles['comp-lazy-image'], className)}
+      ref={(dom) => {
+        if (isFirstRef.current && dom) {
+          isFirstRef.current = false;
+          imageDOMRef.current = dom;
+        }
+      }}
+      style={{
+        ...imgStyle,
+        ...style,
+      }}
+      src={previewSrc}
+      data-src={src}
+      alt={props.alt || ''}
+      {...restProps}
+    />
   );
 };
 
 export default React.memo(LazyImage);
-
-export { lazyImageControl } from 'yuxuannnn_utils';
